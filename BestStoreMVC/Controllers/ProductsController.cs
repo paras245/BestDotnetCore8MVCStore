@@ -13,8 +13,13 @@ namespace BestStoreMVC.Controllers
         }
         public IActionResult Index()
         {
-            var products = context.Products.ToList();
+            var products = context.Products.OrderByDescending(p=>p.Id).ToList();
             return View(products);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }
