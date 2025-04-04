@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BestStoreMVC.Controllers
 {
+    //Access Modifier
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext context;
