@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BestStoreMVC.Controllers
 {
-    //Access Modifier
+    //Access Modifier 
+    //class is a container used to store properites and method
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext context;
