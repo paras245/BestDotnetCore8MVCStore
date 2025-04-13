@@ -7,6 +7,7 @@ namespace BestStoreMVC.Controllers
 {
     //Access Modifier 
     //class is a container used to store properites and method
+    //Product Controller is controllername which is inheriting controller base class
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext context;
