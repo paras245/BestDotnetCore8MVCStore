@@ -13,6 +13,7 @@ namespace BestStoreMVC.Controllers
         private readonly ApplicationDbContext context;
         private readonly IWebHostEnvironment environment;
 
+        //Constructor
         public ProductsController(ApplicationDbContext context,IWebHostEnvironment environment)
         {
             this.context = context;
