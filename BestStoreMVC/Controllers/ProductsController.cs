@@ -19,6 +19,8 @@ namespace BestStoreMVC.Controllers
             this.context = context;
             this.environment = environment;
         }
+
+        //Index view
         public IActionResult Index()
         {
             var products = context.Products.OrderByDescending(p=>p.Id).ToList();
