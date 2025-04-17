@@ -19,7 +19,7 @@ namespace BestStoreMVC.Models
         [Required]
         public string Description { get; set; } = "";
 
-        [MaxLength(100)]
+        
         public IFormFile? ImageFile { get; set; }
     }
 }

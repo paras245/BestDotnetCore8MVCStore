@@ -55,7 +55,73 @@ namespace BestStoreMVC.Controllers
             {
                 productDto.ImageFile.CopyTo(stream);
             }
+
+
+            //Save the new product in the database
+            Product product = new Product()
+            {
+                Name = productDto.Name,
+                Brand = productDto.Brand,
+                Category = productDto.Category,
+                Price = productDto.Price,
+                Description = productDto.Description,
+                ImageFileName = newFileName,
+                CreatedAt = DateTime.Now,
+            };
+
+            context.Products.Add(product);
+            context.SaveChanges();
+
+
             return RedirectToAction("Index", "Products");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var product = context.Products.Find(id);
+
+
+            if(product ==null)
+            {
+                return RedirectToAction("Index", "Products");
+            }
+
+            //create productDto from product
+            var productDto = new ProductDto()
+            {
+                Name = product.Name,
+                Brand = product.Brand,
+                Category = product.Category,
+                Price = product.Price,
+                Description = product.Description,
+            };
+
+
+            ViewData["ProductId"] = product.Id;
+            ViewData["ImageFileName"] = product.ImageFileName;
+            ViewData["CreatedAt"] = product.CreatedAt.ToString("MM/dd/yyyy");
+
+            return View(productDto);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id,ProductDto productDto)
+        {
+            var product = context.Products.Find(id);
+
+            if(product == null)
+            {
+                return RedirectToAction("Index", "Products");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                ViewData["ProductId"] = product.Id;
+                ViewData["ImageFileName"] = product.ImageFileName;
+                ViewData["CreatedAt"] = product.CreatedAt.ToString("MM/dd/yyyy");
+
+                return View(productDto);
+            }
         }
     }
 }
