@@ -122,6 +122,8 @@ namespace BestStoreMVC.Controllers
 
                 return View(productDto);
             }
+
+            return View(product);
         }
     }
 }
