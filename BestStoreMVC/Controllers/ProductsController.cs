@@ -2,6 +2,7 @@
 using BestStoreMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BestStoreMVC.Controllers
 {
@@ -50,7 +51,7 @@ namespace BestStoreMVC.Controllers
             string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             newFileName += Path.GetExtension(productDto.ImageFile!.FileName);
 
-            string imageFullPath = environment.WebRootPath + "/products" + newFileName;
+            string imageFullPath = environment.WebRootPath + "/products/" + newFileName;
             using (var stream = System.IO.File.Create(imageFullPath))
             {
                 productDto.ImageFile.CopyTo(stream);
@@ -123,7 +124,54 @@ namespace BestStoreMVC.Controllers
                 return View(productDto);
             }
 
-            return View(product);
+            //update the image file if we have a new image file
+            string newFileName = product.ImageFileName;
+            if(productDto.ImageFile != null)
+            {
+                newFileName = DateTime.Now.ToString("yyyyMMdddHHmmssfff");
+                newFileName += Path.GetExtension(productDto.ImageFile.FileName);
+
+                string imageFullPath = environment.WebRootPath + "/products/" + newFileName;
+                using (var stream = System.IO.File.OpenWrite(imageFullPath))
+                {
+                    productDto.ImageFile.CopyTo(stream);
+                }
+
+                //delete the old image
+                string oldImageFullPath = environment.WebRootPath + "/products/" + product.ImageFileName;
+                System.IO.File.Delete(imageFullPath);
+
+            }
+
+            //update the product in the database
+            product.Name = productDto.Name;
+            product.Brand = productDto.Brand;
+            product.Category = productDto.Category;
+            product.Price = productDto.Price;
+            product.Description = productDto.Description;
+            product.ImageFileName = newFileName;
+
+            context.SaveChanges();
+
+            return RedirectToAction("Index","Products");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var product = context.Products.Find(id);
+            if(product == null)
+            {
+                return RedirectToAction("Index", "Products");
+            }
+
+            //Delete the file fro path
+            string imageFullPath = environment.WebRootPath + "/products/" + product.ImageFileName;
+            System.IO.File.Delete(imageFullPath);
+
+            context.Products.Remove(product);
+            context.SaveChanges(true);
+
+            return RedirectToAction("Index", "Products");
         }
     }
 }
