@@ -128,7 +128,7 @@ namespace BestStoreMVC.Controllers
             string newFileName = product.ImageFileName;
             if(productDto.ImageFile != null)
             {
-                newFileName = DateTime.Now.ToString("yyyyMMdddHHmmssfff");
+                newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 newFileName += Path.GetExtension(productDto.ImageFile.FileName);
 
                 string imageFullPath = environment.WebRootPath + "/products/" + newFileName;
@@ -139,7 +139,7 @@ namespace BestStoreMVC.Controllers
 
                 //delete the old image
                 string oldImageFullPath = environment.WebRootPath + "/products/" + product.ImageFileName;
-                System.IO.File.Delete(imageFullPath);
+                System.IO.File.Delete(oldImageFullPath);
 
             }
 
