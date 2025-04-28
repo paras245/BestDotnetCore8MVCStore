@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using BestStoreMVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace BestStoreMVC.Controllers
 {

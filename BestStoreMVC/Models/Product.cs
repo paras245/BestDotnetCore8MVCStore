@@ -16,7 +16,7 @@ namespace BestStoreMVC.Models
         [MaxLength(100)]
         public string Category { get; set; } = "";
 
-        [Precision(16,2)]
+        [Precision(16, 2)]
         public decimal Price { get; set; }
 
         public string Description { get; set; } = "";

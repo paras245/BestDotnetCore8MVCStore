@@ -1,8 +1,6 @@
 ﻿using BestStoreMVC.Models;
 using BestStoreMVC.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Security.Cryptography.X509Certificates;
 
 namespace BestStoreMVC.Controllers
 {
@@ -15,7 +13,7 @@ namespace BestStoreMVC.Controllers
         private readonly IWebHostEnvironment environment;
 
         //Constructor
-        public ProductsController(ApplicationDbContext context,IWebHostEnvironment environment)
+        public ProductsController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             this.context = context;
             this.environment = environment;
@@ -24,7 +22,7 @@ namespace BestStoreMVC.Controllers
         //Index view
         public IActionResult Index()
         {
-            var products = context.Products.OrderByDescending(p=>p.Id).ToList();
+            var products = context.Products.OrderByDescending(p => p.Id).ToList();
             return View(products);
         }
 
@@ -36,7 +34,7 @@ namespace BestStoreMVC.Controllers
         [HttpPost]
         public IActionResult Create(ProductDto productDto)
         {
-            if (productDto.ImageFile ==null)
+            if (productDto.ImageFile == null)
             {
                 ModelState.AddModelError("ImageFile", "The image file is required");
             }
@@ -82,7 +80,7 @@ namespace BestStoreMVC.Controllers
             var product = context.Products.Find(id);
 
 
-            if(product ==null)
+            if (product == null)
             {
                 return RedirectToAction("Index", "Products");
             }
@@ -106,16 +104,16 @@ namespace BestStoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int id,ProductDto productDto)
+        public IActionResult Edit(int id, ProductDto productDto)
         {
             var product = context.Products.Find(id);
 
-            if(product == null)
+            if (product == null)
             {
                 return RedirectToAction("Index", "Products");
             }
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 ViewData["ProductId"] = product.Id;
                 ViewData["ImageFileName"] = product.ImageFileName;
@@ -126,7 +124,7 @@ namespace BestStoreMVC.Controllers
 
             //update the image file if we have a new image file
             string newFileName = product.ImageFileName;
-            if(productDto.ImageFile != null)
+            if (productDto.ImageFile != null)
             {
                 newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 newFileName += Path.GetExtension(productDto.ImageFile.FileName);
@@ -153,13 +151,13 @@ namespace BestStoreMVC.Controllers
 
             context.SaveChanges();
 
-            return RedirectToAction("Index","Products");
+            return RedirectToAction("Index", "Products");
         }
 
         public IActionResult Delete(int id)
         {
             var product = context.Products.Find(id);
-            if(product == null)
+            if (product == null)
             {
                 return RedirectToAction("Index", "Products");
             }
