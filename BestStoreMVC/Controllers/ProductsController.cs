@@ -75,6 +75,7 @@ namespace BestStoreMVC.Controllers
             return RedirectToAction("Index", "Products");
         }
 
+        //Edit
         public IActionResult Edit(int id)
         {
             var product = context.Products.Find(id);
