@@ -76,6 +76,7 @@ namespace BestStoreMVC.Controllers
         }
 
         //Edit
+        //access-modifier
         public IActionResult Edit(int id)
         {
             var product = context.Products.Find(id);
